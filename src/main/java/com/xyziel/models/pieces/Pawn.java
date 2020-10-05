@@ -1,6 +1,5 @@
 package com.xyziel.models.pieces;
 
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.net.URISyntaxException;
@@ -9,7 +8,7 @@ public class Pawn extends Piece {
 
     private ImageView img;
 
-    public Pawn(PieceColor color) {
+    public Pawn(Color color) {
         try {
             img = new ImageView(getClass().getResource("/images/" + color + "_PAWN.png").toURI().toString());
         } catch (URISyntaxException e) {

@@ -8,7 +8,7 @@ public class King extends Piece {
 
     private ImageView img;
 
-    public King(PieceColor color) {
+    public King(Color color) {
         try {
             img = new ImageView(getClass().getResource("/images/" + color + "_KING.png").toURI().toString());
         } catch (URISyntaxException e) {

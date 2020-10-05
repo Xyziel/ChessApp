@@ -8,7 +8,7 @@ public class Bishop extends Piece {
 
     private ImageView img;
 
-    public Bishop(PieceColor color) {
+    public Bishop(Color color) {
         try {
             img = new ImageView(getClass().getResource("/images/" + color + "_BISHOP.png").toURI().toString());
         } catch (URISyntaxException e) {
