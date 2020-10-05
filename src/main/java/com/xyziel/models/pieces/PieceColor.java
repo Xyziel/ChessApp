@@ -1,5 +1,5 @@
 package com.xyziel.models.pieces;
 
-public enum Color {
+public enum PieceColor {
     WHITE, BLACK
 }

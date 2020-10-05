@@ -3,4 +3,5 @@ module chessApp {
     requires javafx.controls;
 
     opens com.xyziel;
+    opens com.xyziel.controllers;
 }
