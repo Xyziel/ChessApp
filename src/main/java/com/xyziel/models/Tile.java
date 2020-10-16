@@ -5,15 +5,18 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 
 public class Tile extends Label {
 
     private Piece piece;
+    private Board board;
     private int position;
     private Color tileColor;
 
 
-    public Tile(String color, int position) {
+    public Tile(String color, int position, Board board) {
+        this.board = board;
         this.position = position;
         this.setHeight(80.0);
         this.setWidth(80.0);
@@ -27,6 +30,7 @@ public class Tile extends Label {
         }
 
         this.setOnMouseClicked(e -> {
+            highlightMoves();
             displayInfo();
         });
     }
@@ -54,11 +58,11 @@ public class Tile extends Label {
                 this.setGraphic(piece.getImg());
                 break;
             case 8: case 9: case 10: case 11: case 12: case 13: case 14: case 15:
-                piece = new Pawn(Color.BLACK);
+                piece = new Pawn(Color.BLACK, false);
                 this.setGraphic(piece.getImg());
                 break;
             case 48: case 49: case 50: case 51: case 52: case 53: case 54: case 55:
-                piece = new Pawn(Color.WHITE);
+                piece = new Pawn(Color.WHITE, false);
                 this.setGraphic(piece.getImg());
                 break;
             case 56: case 63:
@@ -93,6 +97,27 @@ public class Tile extends Label {
 
     public void displayInfo() {
         System.out.println(this.tileColor);
-        System.out.println(piece);
+        System.out.println(this.piece);
+        System.out.println(this.position);
+    }
+
+    public void highlightMoves() {
+        if (this.piece != null) {
+            ArrayList<Integer> moves = this.piece.getPossibleMoves(position, board);
+            board.highlightMoves(moves);
+        }
+    }
+
+    public void highlightMove() {
+        this.setStyle("-fx-background-color : red;");
+    }
+
+    public int getPosition() {
+        return this.position;
+    }
+
+    public Piece getPiece() {
+        return this.piece;
     }
 }
+
