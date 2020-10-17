@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class Board extends GridPane {
 
     private Tile[] tiles;
+    private Tile clickedPiece;
 
     public Board() {
         this.setStyle("-fx-border-color: black");
@@ -23,31 +24,34 @@ public class Board extends GridPane {
     }
 
     public void highlightMoves(ArrayList<Integer> moves, Tile startPosition) {
-//        System.out.println(moves);
+        if(clickedPiece != null && !clickedPiece.equals(startPosition)) {
+            for(int move: clickedPiece.getPiece().getPossibleMoves(clickedPiece.getPosition(), this)) {
+                tiles[move].unhighlightMove();
+                tiles[move].setOnMouseClicked(e -> tiles[move].highlightMoves());
+            }
+
+        }
         for(int move: moves) {
             tiles[move].highlightMove();
             tiles[move].setOnMouseClicked(e -> prepareMove(move, startPosition, moves));
         }
+        clickedPiece = startPosition;
     }
 
-    public void prepareMove(int position, Tile tile, ArrayList<Integer> moves) {
-        if(position == tile.getPosition()) {
+    public void prepareMove(int clickedMove, Tile startPosition, ArrayList<Integer> moves) {
+        if(clickedMove == startPosition.getPosition()) {
             for(int move: moves) {
-                tiles[move].dehighlightMove();
+                tiles[move].unhighlightMove();
                 tiles[move].setOnMouseClicked(e -> tiles[move].highlightMoves());
             }
         }
     }
 
-    public void dehightlightMoves() {
-
-    }
-
-    public Tile getTileFromPosition(int position) {
-        return tiles[position];
-    }
-
     public Tile[] getTiles() {
         return tiles;
+    }
+
+    public void setClickedPiece(Tile piece) {
+        this.clickedPiece = piece;
     }
 }

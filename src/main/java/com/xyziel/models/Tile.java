@@ -116,7 +116,7 @@ public class Tile extends Label {
         }
     }
 
-    public void dehighlightMove() {
+    public void unhighlightMove() {
         if (this.tileColor == Color.WHITE) {
             this.setStyle("-fx-background-color : white;");
         } else {
@@ -130,6 +130,10 @@ public class Tile extends Label {
 
     public Piece getPiece() {
         return this.piece;
+    }
+
+    public void setPiece(Piece piece) {
+        this.piece = piece;
     }
 }
 
