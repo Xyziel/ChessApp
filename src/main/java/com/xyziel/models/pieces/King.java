@@ -20,7 +20,6 @@ public class King extends Piece {
             1,
             /*moves to the bottom*/
             7, 8, 9 };
-    private ArrayList<Integer> possibleMoves;
 
     public King(Color color) {
         try {
@@ -28,7 +27,6 @@ public class King extends Piece {
         } catch (URISyntaxException e) {
             System.out.println("Can't load an img");
         }
-        possibleMoves = new ArrayList<>();
         this.pieceColor = color;
     }
 
@@ -39,6 +37,7 @@ public class King extends Piece {
 
     @Override
     public ArrayList<Integer> getPossibleMoves(int position, Board board) {
+        ArrayList<Integer> possibleMoves = new ArrayList<>();
         Tile[] tiles = board.getTiles();
         for(int move: moves) {
             if((move + position >= 0) && (move + position <= 63)) {

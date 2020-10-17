@@ -1,5 +1,6 @@
 package com.xyziel.models;
 
+import com.xyziel.models.pieces.Piece;
 import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
@@ -39,12 +40,16 @@ public class Board extends GridPane {
     }
 
     public void prepareMove(int clickedMove, Tile startPosition, ArrayList<Integer> moves) {
-        if(clickedMove == startPosition.getPosition()) {
-            for(int move: moves) {
-                tiles[move].unhighlightMove();
-                tiles[move].setOnMouseClicked(e -> tiles[move].highlightMoves());
-            }
+        if(clickedMove != startPosition.getPosition()) {
+            Piece piece = startPosition.getPiece();
+            tiles[clickedMove].setPiece(piece);
+            startPosition.clearTile();
         }
+        for(int move: moves) {
+            tiles[move].unhighlightMove();
+            tiles[move].setOnMouseClicked(e -> tiles[move].highlightMoves());
+        }
+        clickedPiece = null;
     }
 
     public Tile[] getTiles() {

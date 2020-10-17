@@ -20,7 +20,6 @@ public class Rook extends Piece {
             1, 2, 3, 4, 5, 6, 7,
             /*moves to the bottom*/
             8, 16, 24, 32, 40, 48, 56 };
-    private ArrayList<Integer> possibleMoves;
 
     public Rook(Color color) {
         try {
@@ -28,7 +27,6 @@ public class Rook extends Piece {
         } catch (URISyntaxException e) {
             System.out.println("Can't load an img");
         }
-        possibleMoves = new ArrayList<>();
         this.pieceColor = color;
     }
 
@@ -39,6 +37,7 @@ public class Rook extends Piece {
 
     @Override
     public ArrayList<Integer> getPossibleMoves(int position, Board board) {
+        ArrayList<Integer> possibleMoves = new ArrayList<>();
         Tile[] tiles = board.getTiles();
         int row = position / 8;
         for(int i = 0; i < moves.length; i++) {

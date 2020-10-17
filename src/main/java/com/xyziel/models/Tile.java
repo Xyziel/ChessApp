@@ -21,7 +21,7 @@ public class Tile extends Label {
         this.setHeight(80.0);
         this.setWidth(80.0);
         this.setStyle("-fx-background-color : " + color + ";");
-        setPiece(position);
+        initialPiecePositions(position);
 
         if(color.equals("white")) {
             tileColor = Color.WHITE;
@@ -35,7 +35,7 @@ public class Tile extends Label {
         });
     }
 
-    public void setPiece(int position) {
+    public void initialPiecePositions(int position) {
         switch (position) {
             case 0: case 7:
                 piece = new Rook(Color.BLACK);
@@ -133,7 +133,20 @@ public class Tile extends Label {
     }
 
     public void setPiece(Piece piece) {
+        if(piece instanceof Pawn) {
+            ((Pawn) piece).setHasMoved(true);
+        }
         this.piece = piece;
+        this.setGraphic(this.piece.getImg());
+    }
+
+    public void clearTile() {
+        this.piece = null;
+        try {
+            this.setGraphic(new ImageView(getClass().getResource("/images/transparent.png").toURI().toString()));
+        } catch (URISyntaxException e) {
+            System.out.println("Can't load an img");
+        }
     }
 }
 

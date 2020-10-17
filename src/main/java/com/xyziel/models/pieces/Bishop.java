@@ -20,14 +20,12 @@ public class Bishop extends Piece {
             7, 14, 21, 28, 35, 42, 49,
             /*moves to the bottom-right*/
             9, 18, 27, 36, 45, 54, 63 };
-    private ArrayList<Integer> possibleMoves;
     public Bishop(Color color) {
         try {
             img = new ImageView(getClass().getResource("/images/" + color + "_BISHOP.png").toURI().toString());
         } catch (URISyntaxException e) {
             System.out.println("Can't load an img");
         }
-        possibleMoves = new ArrayList<>();
         this.pieceColor = color;
     }
 
@@ -38,6 +36,7 @@ public class Bishop extends Piece {
 
     @Override
     public ArrayList<Integer> getPossibleMoves(int position, Board board) {
+        ArrayList<Integer> possibleMoves = new ArrayList<>();
         Tile[] tiles = board.getTiles();
         for(int i = 0; i < moves.length; i++) {
             if((moves[i] + position >= 0) && (moves[i] + position <= 63)) {

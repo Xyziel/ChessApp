@@ -20,7 +20,6 @@ public class Knight extends Piece {
             6, 15,
             /*moves to the bottom-right*/
             10, 17 };
-    private ArrayList<Integer> possibleMoves;
 
     public Knight(Color color) {
         try {
@@ -28,7 +27,6 @@ public class Knight extends Piece {
         } catch (URISyntaxException e) {
             System.out.println("Can't load an img");
         }
-        possibleMoves = new ArrayList<>();
         this.pieceColor = color;
     }
 
@@ -39,6 +37,7 @@ public class Knight extends Piece {
 
     @Override
     public ArrayList<Integer> getPossibleMoves(int position, Board board) {
+        ArrayList<Integer> possibleMoves = new ArrayList<>();
         Tile[] tiles = board.getTiles();
         for(int move: moves) {
             if((move + position >= 0) && (move + position <= 63) && ((move + position) % 8 >= (position % 8) - 2 && (move + position) % 8 <= (position % 8)+ 2)) {
