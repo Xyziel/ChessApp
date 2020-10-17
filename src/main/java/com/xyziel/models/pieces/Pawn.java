@@ -6,6 +6,7 @@ import javafx.scene.image.ImageView;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Pawn extends Piece {
 
@@ -18,7 +19,6 @@ public class Pawn extends Piece {
     private final int[] movesBlack = {
             /*moves to the bottom*/
             7, 8, 9, 16 };
-    private ArrayList<Integer> possibleMoves;
 
     public Pawn(Color color, boolean hasMoved) {
         try {
@@ -26,7 +26,6 @@ public class Pawn extends Piece {
         } catch (URISyntaxException e) {
             System.out.println("Can't load an img");
         }
-        possibleMoves = new ArrayList<>();
         this.pieceColor = color;
         this.hasMoved = hasMoved;
     }
@@ -38,6 +37,7 @@ public class Pawn extends Piece {
 
     @Override
     public ArrayList<Integer> getPossibleMoves(int position, Board board) {
+        ArrayList<Integer> possibleMoves = new ArrayList<>();
         Tile[] tiles = board.getTiles();
         int[] moves = this.pieceColor == Color.WHITE ? movesWhite : movesBlack;
         if(tiles[moves[0] + position].getPiece() != null && tiles[moves[0] + position].getPiece().getPieceColor() != this.pieceColor) {
@@ -49,7 +49,7 @@ public class Pawn extends Piece {
         if(tiles[moves[1] + position].getPiece() == null) {
             possibleMoves.add(moves[1] + position);
         }
-        if(tiles[moves[3] + position].getPiece() == null && !hasMoved) {
+        if(!hasMoved && tiles[moves[3] + position].getPiece() == null) {
             possibleMoves.add(moves[3] + position);
         }
         possibleMoves.add(position);
@@ -59,5 +59,9 @@ public class Pawn extends Piece {
     @Override
     public Color getPieceColor() {
         return pieceColor;
+    }
+
+    public void setHasMoved(boolean hasMoved) {
+        this.hasMoved = hasMoved;
     }
 }
