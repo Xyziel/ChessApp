@@ -31,7 +31,7 @@ public class Tile extends Label {
 
         this.setOnMouseClicked(e -> {
             highlightMoves();
-            displayInfo();
+//            displayInfo();
         });
     }
 
@@ -95,21 +95,33 @@ public class Tile extends Label {
         }
     }
 
-    public void displayInfo() {
-        System.out.println(this.tileColor);
-        System.out.println(this.piece);
-        System.out.println(this.position);
-    }
+//    public void displayInfo() {
+//        System.out.println(this.tileColor);
+//        System.out.println(this.piece);
+//        System.out.println(this.position);
+//    }
 
     public void highlightMoves() {
         if (this.piece != null) {
             ArrayList<Integer> moves = this.piece.getPossibleMoves(position, board);
-            board.highlightMoves(moves);
+            board.highlightMoves(moves, this);
         }
     }
 
     public void highlightMove() {
-        this.setStyle("-fx-background-color : red;");
+        if (this.tileColor == Color.WHITE) {
+            this.setStyle("-fx-background-color : #949494;");
+        } else {
+            this.setStyle("-fx-background-color : #103828;");
+        }
+    }
+
+    public void dehighlightMove() {
+        if (this.tileColor == Color.WHITE) {
+            this.setStyle("-fx-background-color : white;");
+        } else {
+            this.setStyle("-fx-background-color : #473515;");
+        }
     }
 
     public int getPosition() {

@@ -22,11 +22,25 @@ public class Board extends GridPane {
         }
     }
 
-    public void highlightMoves(ArrayList<Integer> moves) {
-        System.out.println(moves);
+    public void highlightMoves(ArrayList<Integer> moves, Tile startPosition) {
+//        System.out.println(moves);
         for(int move: moves) {
             tiles[move].highlightMove();
+            tiles[move].setOnMouseClicked(e -> prepareMove(move, startPosition, moves));
         }
+    }
+
+    public void prepareMove(int position, Tile tile, ArrayList<Integer> moves) {
+        if(position == tile.getPosition()) {
+            for(int move: moves) {
+                tiles[move].dehighlightMove();
+                tiles[move].setOnMouseClicked(e -> tiles[move].highlightMoves());
+            }
+        }
+    }
+
+    public void dehightlightMoves() {
+
     }
 
     public Tile getTileFromPosition(int position) {
