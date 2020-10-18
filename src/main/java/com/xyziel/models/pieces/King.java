@@ -48,12 +48,18 @@ public class King extends Piece {
                 }
             }
         }
-        possibleMoves.add(position);
         return possibleMoves;
+    }
+
+    public boolean isCheck(Board board, int position) {
+        Color color = pieceColor == Color.WHITE ? Color.BLACK : Color.WHITE;
+        ArrayList<Integer> moves = board.getAllMoves(color);
+        //if king position is one of the moves that opponent can make then returns true;
+        return moves.contains(position);
     }
 
     @Override
     public Color getPieceColor() {
-        return pieceColor;
+        return this.pieceColor;
     }
 }

@@ -55,7 +55,6 @@ public class Rook extends Piece {
                 }
             }
         }
-        possibleMoves.add(position);
         return possibleMoves;
     }
 

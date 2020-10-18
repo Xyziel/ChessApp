@@ -36,6 +36,7 @@ public class Bishop extends Piece {
 
     @Override
     public ArrayList<Integer> getPossibleMoves(int position, Board board) {
+        System.out.println(this.pieceColor);
         ArrayList<Integer> possibleMoves = new ArrayList<>();
         Tile[] tiles = board.getTiles();
         for(int i = 0; i < moves.length; i++) {
@@ -53,7 +54,6 @@ public class Bishop extends Piece {
                 }
             }
         }
-        possibleMoves.add(position);
         return possibleMoves;
     }
 

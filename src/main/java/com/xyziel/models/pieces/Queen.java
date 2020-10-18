@@ -62,7 +62,6 @@ public class Queen extends Piece {
                 }
             }
         }
-        possibleMoves.add(position);
         return possibleMoves;
     }
 

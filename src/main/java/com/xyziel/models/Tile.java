@@ -31,7 +31,7 @@ public class Tile extends Label {
 
         this.setOnMouseClicked(e -> {
             highlightMoves();
-//            displayInfo();
+            displayInfo();
         });
     }
 
@@ -95,14 +95,15 @@ public class Tile extends Label {
         }
     }
 
-//    public void displayInfo() {
+    public void displayInfo() {
 //        System.out.println(this.tileColor);
-//        System.out.println(this.piece);
-//        System.out.println(this.position);
-//    }
+        System.out.println("piece color: " + this.piece.getPieceColor());
+        System.out.println(this.position);
+    }
 
     public void highlightMoves() {
         if (this.piece != null) {
+//            System.out.println("Tile: Wyświetlam ruchy dla " + piece);
             ArrayList<Integer> moves = this.piece.getPossibleMoves(position, board);
             board.highlightMoves(moves, this);
         }
@@ -147,6 +148,10 @@ public class Tile extends Label {
         } catch (URISyntaxException e) {
             System.out.println("Can't load an img");
         }
+    }
+
+    public void setPieceTemporary(Piece piece) {
+        this.piece = piece;
     }
 }
 
