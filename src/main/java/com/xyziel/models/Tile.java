@@ -31,7 +31,7 @@ public class Tile extends Label {
 
         this.setOnMouseClicked(e -> {
             highlightMoves();
-            displayInfo();
+//            displayInfo();
         });
     }
 
@@ -97,8 +97,8 @@ public class Tile extends Label {
 
     public void displayInfo() {
 //        System.out.println(this.tileColor);
-        System.out.println("piece color: " + this.piece.getPieceColor());
-        System.out.println(this.position);
+//        System.out.println("piece color: " + this.piece.getPieceColor());
+//        System.out.println(this.position);
     }
 
     public void highlightMoves() {

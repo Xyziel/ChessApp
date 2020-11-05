@@ -27,18 +27,21 @@ public class Board extends GridPane {
     }
 
     public void highlightMoves(ArrayList<Integer> moves, Tile startPosition) {
-//        System.out.println("Moves: " + moves);
-        if(clickedPiece != null && !clickedPiece.equals(startPosition)) {
-            for(int move: clickedPiece.getPiece().getPossibleMoves(clickedPiece.getPosition(), this)) {
-                tiles[move].unhighlightMove();
-                tiles[move].setOnMouseClicked(e -> tiles[move].highlightMoves());
-            }
-//            System.out.println("Pozycja:" + clickedPiece.getPosition());
-            tiles[clickedPiece.getPosition()].unhighlightMove();
-            tiles[clickedPiece.getPosition()].setOnMouseClicked(e ->
-            {tiles[clickedPiece.getPosition()].highlightMoves();
-                tiles[clickedPiece.getPosition()].displayInfo();});
+        for(int i = 0; i < 64; i++) {
+            tiles[i].unhighlightMove();
+            int finalI = i;
+            tiles[i].setOnMouseClicked(e -> tiles[finalI].highlightMoves());
         }
+//        if(clickedPiece != null && !clickedPiece.equals(startPosition)) {
+//            for(int move: clickedPiece.getPiece().getPossibleMoves(clickedPiece.getPosition(), this)) {
+//                tiles[move].unhighlightMove();
+//                System.out.println("Move: " + move);
+//                tiles[move].setOnMouseClicked(e -> tiles[move].highlightMoves());
+//            }
+//            System.out.println("Clicked Piece is: " + clickedPiece.getPosition());
+//            tiles[clickedPiece.getPosition()].unhighlightMove();
+//            tiles[clickedPiece.getPosition()].setOnMouseClicked(e -> tiles[clickedPiece.getPosition()].highlightMoves());
+//        }
         for(int move: moves) {
             //pretend move
             Color color = startPosition.getPiece().getPieceColor();
@@ -55,10 +58,11 @@ public class Board extends GridPane {
         tiles[startPosition.getPosition()].highlightMove();
         tiles[startPosition.getPosition()].setOnMouseClicked(e -> prepareMove(startPosition.getPosition(), startPosition, moves));
         clickedPiece = startPosition;
+        //System.out.println("Clicked Piece " + clickedPiece.getPosition());
     }
 
     public void prepareMove(int clickedMove, Tile startPosition, ArrayList<Integer> moves) {
-        System.out.println(tiles[clickedMove].getPiece());
+//        System.out.println(tiles[clickedMove].getPiece());
         if(clickedMove != startPosition.getPosition()) {
             Piece piece = startPosition.getPiece();
             tiles[clickedMove].setPiece(piece);
