@@ -49,7 +49,7 @@ public class Pawn extends Piece {
         if(tiles[moves[1] + position].getPiece() == null) {
             possibleMoves.add(moves[1] + position);
         }
-        if(!hasMoved && tiles[moves[3] + position].getPiece() == null) {
+        if(!hasMoved && tiles[moves[1] + position].getPiece() == null && tiles[moves[3] + position].getPiece() == null) {
             possibleMoves.add(moves[3] + position);
         }
         return possibleMoves;
