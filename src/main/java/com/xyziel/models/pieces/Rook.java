@@ -49,9 +49,6 @@ public class Rook extends Piece {
                     i = i / 7 * 7 + 6;
                 } else {
                     possibleMoves.add(moves[i] + position);
-                    if((moves[i]+position) % 8 == 0 || (moves[i]+position+1) % 8 == 0) {
-                        i = i/7 * 7 + 6;
-                    }
                 }
             }
         }
