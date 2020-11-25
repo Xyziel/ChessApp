@@ -78,9 +78,11 @@ public class Board extends GridPane {
         if(clickedMove != startPosition.getPosition()) {
             Piece piece = startPosition.getPiece();
             if(piece instanceof Pawn) {
+                if(tiles[clickedMove].getPiece() == null && clickedMove % 8 != startPosition.getPosition() % 8) {
+                    tiles[clickedMove + 8].clearTile();
+                }
                 if (!(((Pawn) piece).isHasMoved())) {
                     this.enpassant = clickedMove;
-                    System.out.println("enpassant" + enpassant);
                 }
             } else {
                 enpassant = -1;
