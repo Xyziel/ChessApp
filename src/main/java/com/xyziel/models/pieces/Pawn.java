@@ -40,17 +40,21 @@ public class Pawn extends Piece {
         ArrayList<Integer> possibleMoves = new ArrayList<>();
         Tile[] tiles = board.getTiles();
         int[] moves = this.pieceColor == Color.WHITE ? movesWhite : movesBlack;
-        if(tiles[moves[0] + position].getPiece() != null && tiles[moves[0] + position].getPiece().getPieceColor() != this.pieceColor) {
+        if(moves[0] + position >= 0 && moves[0] + position <= 63 && tiles[moves[0] + position].getPiece() != null && tiles[moves[0] + position].getPiece().getPieceColor() != this.pieceColor) {
             possibleMoves.add(moves[0] + position);
         }
-        if(tiles[moves[2] + position].getPiece() != null && tiles[moves[2] + position].getPiece().getPieceColor() != this.pieceColor) {
+        if(moves[2] + position >= 0 && moves[2] + position <= 63 && tiles[moves[2] + position].getPiece() != null && tiles[moves[2] + position].getPiece().getPieceColor() != this.pieceColor) {
             possibleMoves.add(moves[2] + position);
         }
-        if(tiles[moves[1] + position].getPiece() == null) {
+        if(moves[1] + position >= 0 && moves[1] + position <= 63 && tiles[moves[1] + position].getPiece() == null) {
             possibleMoves.add(moves[1] + position);
         }
-        if(!hasMoved && tiles[moves[1] + position].getPiece() == null && tiles[moves[3] + position].getPiece() == null) {
+        if(moves[3] + position >= 0 && moves[3] + position <= 63 && !hasMoved && tiles[moves[1] + position].getPiece() == null && tiles[moves[3] + position].getPiece() == null) {
             possibleMoves.add(moves[3] + position);
+        }
+        //En passant
+        if(board.getEnpassant() + 1 == position || board.getEnpassant() - 1 == position) {
+            possibleMoves.add(board.getEnpassant() - 8);
         }
         return possibleMoves;
     }
@@ -62,5 +66,9 @@ public class Pawn extends Piece {
 
     public void setHasMoved(boolean hasMoved) {
         this.hasMoved = hasMoved;
+    }
+
+    public boolean isHasMoved() {
+        return hasMoved;
     }
 }

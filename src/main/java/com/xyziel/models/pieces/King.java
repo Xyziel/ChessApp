@@ -54,6 +54,7 @@ public class King extends Piece {
     public boolean isCheck(Board board, int position) {
         Color color = pieceColor == Color.WHITE ? Color.BLACK : Color.WHITE;
         ArrayList<Integer> moves = board.getAllMoves(color);
+        System.out.println("Opponents moves:" + moves);
         //if king position is one of the moves that opponent can make then returns true;
         return moves.contains(position);
     }

@@ -2,6 +2,7 @@ package com.xyziel.models;
 
 import com.xyziel.models.pieces.Color;
 import com.xyziel.models.pieces.King;
+import com.xyziel.models.pieces.Pawn;
 import com.xyziel.models.pieces.Piece;
 import javafx.scene.layout.GridPane;
 
@@ -10,11 +11,13 @@ import java.util.ArrayList;
 public class Board extends GridPane {
 
     private Tile[] tiles;
-    private Tile clickedPiece;
+    private int enpassant;
+    private Color colorToMove;
 
     public Board() {
         this.setStyle("-fx-border-color: black");
         tiles = new Tile[64];
+        colorToMove = Color.WHITE;
     }
 
     public void renderBoard() {
@@ -27,11 +30,15 @@ public class Board extends GridPane {
     }
 
     public void highlightMoves(ArrayList<Integer> moves, Tile startPosition) {
-        for(int i = 0; i < 64; i++) {
-            tiles[i].unhighlightMove();
-            int finalI = i;
-            tiles[i].setOnMouseClicked(e -> tiles[finalI].highlightMoves());
-        }
+        if(startPosition.getPiece().getPieceColor() == this.colorToMove) {
+            for (int i = 0; i < 64; i++) {
+                tiles[i].unhighlightMove();
+                int finalI = i;
+                tiles[i].setOnMouseClicked(e -> {
+                    tiles[finalI].highlightMoves();
+                    tiles[finalI].displayInfo();
+                });
+            }
 //        if(clickedPiece != null && !clickedPiece.equals(startPosition)) {
 //            for(int move: clickedPiece.getPiece().getPossibleMoves(clickedPiece.getPosition(), this)) {
 //                tiles[move].unhighlightMove();
@@ -42,31 +49,45 @@ public class Board extends GridPane {
 //            tiles[clickedPiece.getPosition()].unhighlightMove();
 //            tiles[clickedPiece.getPosition()].setOnMouseClicked(e -> tiles[clickedPiece.getPosition()].highlightMoves());
 //        }
-        for(int move: moves) {
-            //pretend move
-            Color color = startPosition.getPiece().getPieceColor();
-//            System.out.println("Move: " + move);
-            pretendMove(move, startPosition.getPosition());
-            boolean isCheck = isKingUnderCheck(color);
-            pretendMove(startPosition.getPosition(), move);
 
-            if(!isCheck) {
-                tiles[move].highlightMove();
-                tiles[move].setOnMouseClicked(e -> prepareMove(move, startPosition, moves));
+            for (int move : moves) {
+                //pretend move
+                System.out.println(startPosition.getPiece());
+                Color color = startPosition.getPiece().getPieceColor();
+//            System.out.println("Move: " + move);
+                Piece startingPositionPiece = startPosition.getPiece();
+                Piece movePiece = tiles[move].getPiece();
+                pretendMove(startingPositionPiece, null, move, startPosition.getPosition());
+                boolean isCheck = isKingUnderCheck(color);
+                pretendMove(movePiece, startingPositionPiece, move, startPosition.getPosition());
+                if (!isCheck) {
+                    tiles[move].highlightMove();
+                    tiles[move].setOnMouseClicked(e -> {
+                        prepareMove(move, startPosition, moves);
+                        tiles[move].displayInfo();
+                    });
+                }
             }
+            tiles[startPosition.getPosition()].highlightMove();
+            tiles[startPosition.getPosition()].setOnMouseClicked(e -> prepareMove(startPosition.getPosition(), startPosition, moves));
+            //clickedPiece = startPosition;
         }
-        tiles[startPosition.getPosition()].highlightMove();
-        tiles[startPosition.getPosition()].setOnMouseClicked(e -> prepareMove(startPosition.getPosition(), startPosition, moves));
-        clickedPiece = startPosition;
-        //System.out.println("Clicked Piece " + clickedPiece.getPosition());
     }
 
     public void prepareMove(int clickedMove, Tile startPosition, ArrayList<Integer> moves) {
-//        System.out.println(tiles[clickedMove].getPiece());
         if(clickedMove != startPosition.getPosition()) {
             Piece piece = startPosition.getPiece();
+            if(piece instanceof Pawn) {
+                if (!(((Pawn) piece).isHasMoved())) {
+                    this.enpassant = clickedMove;
+                    System.out.println("enpassant" + enpassant);
+                }
+            } else {
+                enpassant = -1;
+            }
             tiles[clickedMove].setPiece(piece);
             startPosition.clearTile();
+            this.colorToMove = this.colorToMove == Color.WHITE ? Color.BLACK : Color.WHITE;
         }
         for(int move: moves) {
             tiles[move].unhighlightMove();
@@ -74,7 +95,7 @@ public class Board extends GridPane {
         }
         tiles[startPosition.getPosition()].unhighlightMove();
         tiles[startPosition.getPosition()].setOnMouseClicked(e -> {tiles[startPosition.getPosition()].highlightMoves(); tiles[startPosition.getPosition()].displayInfo();});
-        clickedPiece = null;
+        //clickedPiece = null;
     }
 
     public ArrayList<Integer> getAllMoves(Color color) {
@@ -91,10 +112,6 @@ public class Board extends GridPane {
         return tiles;
     }
 
-    public void setClickedPiece(Tile piece) {
-        this.clickedPiece = piece;
-    }
-
     public Tile findKing(Color color) {
         for(Tile tile: tiles) {
             if(tile.getPiece() instanceof King && tile.getPiece().getPieceColor() == color) {
@@ -109,10 +126,12 @@ public class Board extends GridPane {
         return ((King) king.getPiece()).isCheck(this, king.getPosition());
     }
 
-    public void pretendMove(int to, int from) {
-//        System.out.println("Zamieniam miejscem: z - "  + from + "   do - " + to);
-        Piece pieceTo = tiles[to].getPiece();
-        tiles[to].setPieceTemporary(tiles[from].getPiece());
-        tiles[from].setPieceTemporary(pieceTo);
+    public void pretendMove(Piece toPiece, Piece fromPiece, int to, int from) {
+        tiles[to].setPieceTemporary(toPiece);
+        tiles[from].setPieceTemporary(fromPiece);
+    }
+
+    public int getEnpassant() {
+        return enpassant;
     }
 }
