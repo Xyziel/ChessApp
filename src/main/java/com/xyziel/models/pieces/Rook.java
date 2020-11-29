@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class Rook extends Piece {
 
+    boolean hasMoved;
     private ImageView img;
     private Color pieceColor;
     private final int[] moves = {
@@ -21,13 +22,14 @@ public class Rook extends Piece {
             /*moves to the bottom*/
             8, 16, 24, 32, 40, 48, 56 };
 
-    public Rook(Color color) {
+    public Rook(Color color, boolean hasMoved) {
         try {
             img = new ImageView(getClass().getResource("/images/" + color + "_ROOK.png").toURI().toString());
         } catch (URISyntaxException e) {
             System.out.println("Can't load an img");
         }
         this.pieceColor = color;
+        setHasMoved(hasMoved);
     }
 
     @Override
@@ -36,7 +38,7 @@ public class Rook extends Piece {
     }
 
     @Override
-    public ArrayList<Integer> getPossibleMoves(int position, Board board) {
+    public ArrayList<Integer> getPossibleMoves(int position, Board board, boolean onlyAttackedTiles) {
         ArrayList<Integer> possibleMoves = new ArrayList<>();
         Tile[] tiles = board.getTiles();
         int row = position / 8;
@@ -58,5 +60,13 @@ public class Rook extends Piece {
     @Override
     public Color getPieceColor() {
         return pieceColor;
+    }
+
+    public boolean isHasMoved() {
+        return hasMoved;
+    }
+
+    public void setHasMoved(boolean hasMoved) {
+        this.hasMoved = hasMoved;
     }
 }

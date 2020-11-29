@@ -10,9 +10,9 @@ import java.util.Arrays;
 
 public class Pawn extends Piece {
 
+    boolean hasMoved;
     private ImageView img;
     private Color pieceColor;
-    private boolean hasMoved;
     private final int[] movesWhite = {
             /*moves to the top*/
             -7, -8, -9, -16 };
@@ -27,7 +27,7 @@ public class Pawn extends Piece {
             System.out.println("Can't load an img");
         }
         this.pieceColor = color;
-        this.hasMoved = hasMoved;
+        setHasMoved(hasMoved);
     }
 
     @Override
@@ -36,15 +36,31 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public ArrayList<Integer> getPossibleMoves(int position, Board board) {
+    public ArrayList<Integer> getPossibleMoves(int position, Board board, boolean onlyAttackedTiles) {
         ArrayList<Integer> possibleMoves = new ArrayList<>();
         Tile[] tiles = board.getTiles();
         int[] moves = this.pieceColor == Color.WHITE ? movesWhite : movesBlack;
         if(moves[0] + position >= 0 && moves[0] + position <= 63 && tiles[moves[0] + position].getPiece() != null && tiles[moves[0] + position].getPiece().getPieceColor() != this.pieceColor) {
-            possibleMoves.add(moves[0] + position);
+            if(pieceColor == Color.WHITE) {
+                if(position % 8 != 7) {
+                    possibleMoves.add(moves[0] + position);
+                }
+            } else {
+                if(position % 8 != 0) {
+                    possibleMoves.add(moves[0] + position);
+                }
+            }
         }
         if(moves[2] + position >= 0 && moves[2] + position <= 63 && tiles[moves[2] + position].getPiece() != null && tiles[moves[2] + position].getPiece().getPieceColor() != this.pieceColor) {
-            possibleMoves.add(moves[2] + position);
+            if(pieceColor == Color.WHITE) {
+                if(position % 8 != 0) {
+                    possibleMoves.add(moves[2] + position);
+                }
+            } else {
+                if(position % 8 != 7) {
+                    possibleMoves.add(moves[2] + position);
+                }
+            }
         }
         if(moves[1] + position >= 0 && moves[1] + position <= 63 && tiles[moves[1] + position].getPiece() == null) {
             possibleMoves.add(moves[1] + position);
@@ -64,11 +80,12 @@ public class Pawn extends Piece {
         return pieceColor;
     }
 
+    public boolean isHasMoved() {
+        return hasMoved;
+    }
+
     public void setHasMoved(boolean hasMoved) {
         this.hasMoved = hasMoved;
     }
 
-    public boolean isHasMoved() {
-        return hasMoved;
-    }
 }

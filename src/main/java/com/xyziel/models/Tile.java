@@ -38,7 +38,7 @@ public class Tile extends Label {
     public void initialPiecePositions(int position) {
         switch (position) {
             case 0: case 7:
-                piece = new Rook(Color.BLACK);
+                piece = new Rook(Color.BLACK, false);
                 this.setGraphic(piece.getImg());
                 break;
             case 1: case 6:
@@ -54,7 +54,7 @@ public class Tile extends Label {
                 this.setGraphic(piece.getImg());
                 break;
             case 4:
-                piece = new King(Color.BLACK);
+                piece = new King(Color.BLACK, false);
                 this.setGraphic(piece.getImg());
                 break;
             case 8: case 9: case 10: case 11: case 12: case 13: case 14: case 15:
@@ -66,7 +66,7 @@ public class Tile extends Label {
                 this.setGraphic(piece.getImg());
                 break;
             case 56: case 63:
-                piece = new Rook(Color.WHITE);
+                piece = new Rook(Color.WHITE, false);
                 this.setGraphic(piece.getImg());
                 break;
             case 57: case 62:
@@ -82,7 +82,7 @@ public class Tile extends Label {
                 this.setGraphic(piece.getImg());
                 break;
             case 60:
-                piece = new King(Color.WHITE);
+                piece = new King(Color.WHITE, false);
                 this.setGraphic(piece.getImg());
                 break;
             default:
@@ -97,13 +97,14 @@ public class Tile extends Label {
 
     public void displayInfo() {
 //        System.out.println(this.tileColor);
-        System.out.println("piece : " + this.piece);
-        System.out.println(this.position);
+//        System.out.println("piece : " + this.piece);
+//        System.out.println(this.position);
     }
 
     public void highlightMoves() {
         if (this.piece != null) {
-            ArrayList<Integer> moves = this.piece.getPossibleMoves(position, board);
+            ArrayList<Integer> moves = this.piece.getPossibleMoves(position, board, false);
+            System.out.println(moves);
             board.highlightMoves(moves, this);
         }
     }
@@ -135,6 +136,10 @@ public class Tile extends Label {
     public void setPiece(Piece piece) {
         if(piece instanceof Pawn) {
             ((Pawn) piece).setHasMoved(true);
+        } else if (piece instanceof King) {
+            ((King) piece).setHasMoved(true);
+        } else if(piece instanceof Rook) {
+            ((Rook) piece).setHasMoved(true);
         }
         this.piece = piece;
         this.setGraphic(this.piece.getImg());

@@ -44,7 +44,7 @@ public class Queen extends Piece {
     }
 
     @Override
-    public ArrayList<Integer> getPossibleMoves(int position, Board board) {
+    public ArrayList<Integer> getPossibleMoves(int position, Board board, boolean onlyAttackedTiles) {
         ArrayList<Integer> possibleMoves = new ArrayList<>();
         Tile[] tiles = board.getTiles();
         int row = position / 8;

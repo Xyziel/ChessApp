@@ -36,7 +36,7 @@ public class Knight extends Piece {
     }
 
     @Override
-    public ArrayList<Integer> getPossibleMoves(int position, Board board) {
+    public ArrayList<Integer> getPossibleMoves(int position, Board board, boolean onlyAttackedTiles) {
         ArrayList<Integer> possibleMoves = new ArrayList<>();
         Tile[] tiles = board.getTiles();
         for(int move: moves) {
