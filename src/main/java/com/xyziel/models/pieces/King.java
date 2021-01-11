@@ -1,6 +1,6 @@
 package com.xyziel.models.pieces;
 
-import com.xyziel.models.Board;
+import com.xyziel.controllers.Board;
 import com.xyziel.models.Tile;
 import javafx.scene.image.ImageView;
 
@@ -47,7 +47,13 @@ public class King extends Piece {
                     if(tiles[move + position].getPiece() == null) {
                         possibleMoves.add(move + position);
                     } else if(tiles[move + position].getPiece().getPieceColor() != this.pieceColor) {
-                        possibleMoves.add(move + position);
+                        if(tiles[move + position].getPiece() instanceof King) {
+                            if(onlyAttackedTiles) {
+                                possibleMoves.add(move + position);
+                            }
+                        } else {
+                            possibleMoves.add(move + position);
+                        }
                     }
                 }
             }
@@ -80,14 +86,12 @@ public class King extends Piece {
     public boolean isCheck(Board board, int position) {
         Color color = pieceColor == Color.WHITE ? Color.BLACK : Color.WHITE;
         ArrayList<Integer> moves = board.getAllAttackedTiles(color);
-        //System.out.println("Opponents moves:" + moves);
         //if king position is one of the moves that opponent can make then returns true;
         return moves.contains(position);
     }
 
     public boolean isCheckmate(Board board, Color color) {
         ArrayList<Integer> moves = board.getAllMoves(color);
-        System.out.println(moves);
         return moves.isEmpty();
     }
 

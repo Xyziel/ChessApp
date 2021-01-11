@@ -1,6 +1,6 @@
 package com.xyziel.models.pieces;
 
-import com.xyziel.models.Board;
+import com.xyziel.controllers.Board;
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package com.xyziel.models.pieces;
 
-import com.xyziel.models.Board;
+import com.xyziel.controllers.Board;
 import com.xyziel.models.Tile;
 import javafx.scene.image.ImageView;
 
@@ -53,7 +53,13 @@ public class Queen extends Piece {
                 if (i < 28 && ((moves[i] + position) / 8 == row || moves[i] % 8 == 0)) {
                     if ((tiles[moves[i] + position].getPiece() != null)) {
                         if (tiles[moves[i] + position].getPiece().getPieceColor() != this.pieceColor) {
-                            possibleMoves.add(moves[i] + position);
+                            if(tiles[moves[i] + position].getPiece() instanceof King) {
+                                if(onlyAttackedTiles) {
+                                    possibleMoves.add(moves[i] + position);
+                                }
+                            } else {
+                                possibleMoves.add(moves[i] + position);
+                            }
                         }
                         i = i / 7 * 7 + 6;
                     } else {
@@ -64,7 +70,13 @@ public class Queen extends Piece {
                     if (((i / 7 == 4 || i / 7 == 6) && (moves[i] + position) % 8 != 7) || ((i / 7 == 5 || i / 7 == 7) && (moves[i] + position) % 8 != 0)) {
                         if ((tiles[moves[i] + position].getPiece() != null)) {
                             if (tiles[moves[i] + position].getPiece().getPieceColor() != this.pieceColor) {
-                                possibleMoves.add(moves[i] + position);
+                                if(tiles[moves[i] + position].getPiece() instanceof King) {
+                                    if(onlyAttackedTiles) {
+                                        possibleMoves.add(moves[i] + position);
+                                    }
+                                } else {
+                                    possibleMoves.add(moves[i] + position);
+                                }
                             }
                             i = i / 7 * 7 + 6;
                         } else {

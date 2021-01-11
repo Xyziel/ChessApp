@@ -1,5 +1,6 @@
 package com.xyziel.models;
 
+import com.xyziel.controllers.Board;
 import com.xyziel.models.pieces.*;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -31,7 +32,6 @@ public class Tile extends Label {
 
         this.setOnMouseClicked(e -> {
             highlightMoves();
-            displayInfo();
         });
     }
 
@@ -87,7 +87,7 @@ public class Tile extends Label {
                 break;
             default:
                 try {
-                    this.setGraphic(new ImageView(getClass().getResource("/images/transparent.png").toURI().toString()));
+                    this.setGraphic(new ImageView(getClass().getResource("/images/TRANSPARENT.png").toURI().toString()));
                 } catch (URISyntaxException e) {
                     System.out.println("Can't load an img");
                 }
@@ -96,15 +96,11 @@ public class Tile extends Label {
     }
 
     public void displayInfo() {
-//        System.out.println(this.tileColor);
-//        System.out.println("piece : " + this.piece);
-//        System.out.println(this.position);
     }
 
     public void highlightMoves() {
         if (this.piece != null) {
             ArrayList<Integer> moves = this.piece.getPossibleMoves(position, board, false);
-            System.out.println(moves);
             board.highlightMoves(moves, this);
         }
     }
@@ -134,6 +130,8 @@ public class Tile extends Label {
     }
 
     public void setPiece(Piece piece) {
+        this.piece = piece;
+        this.setGraphic(this.piece.getImg());
         if(piece instanceof Pawn) {
             ((Pawn) piece).setHasMoved(true);
         } else if (piece instanceof King) {
@@ -141,20 +139,29 @@ public class Tile extends Label {
         } else if(piece instanceof Rook) {
             ((Rook) piece).setHasMoved(true);
         }
-        this.piece = piece;
-        this.setGraphic(this.piece.getImg());
     }
 
     public void clearTile() {
         this.piece = null;
         try {
-            this.setGraphic(new ImageView(getClass().getResource("/images/transparent.png").toURI().toString()));
+            this.setGraphic(new ImageView(getClass().getResource("/images/TRANSPARENT.png").toURI().toString()));
         } catch (URISyntaxException e) {
             System.out.println("Can't load an img");
         }
     }
 
     public void setPieceTemporary(Piece piece) {
+        this.piece = piece;
+    }
+
+    public void setPieceForEngine(Piece piece) {
+        if(piece instanceof Pawn) {
+            ((Pawn) piece).setHasMoved(true);
+        } else if (piece instanceof King) {
+            ((King) piece).setHasMoved(true);
+        } else if(piece instanceof Rook) {
+            ((Rook) piece).setHasMoved(true);
+        }
         this.piece = piece;
     }
 }

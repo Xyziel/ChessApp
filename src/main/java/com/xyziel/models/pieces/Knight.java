@@ -1,6 +1,6 @@
 package com.xyziel.models.pieces;
 
-import com.xyziel.models.Board;
+import com.xyziel.controllers.Board;
 import com.xyziel.models.Tile;
 import javafx.scene.image.ImageView;
 
@@ -44,7 +44,13 @@ public class Knight extends Piece {
                 if(tiles[move + position].getPiece() == null) {
                     possibleMoves.add(move + position);
                 } else if(tiles[move + position].getPiece().getPieceColor() != this.pieceColor) {
-                    possibleMoves.add(move + position);
+                    if(tiles[move + position].getPiece() instanceof King) {
+                        if(onlyAttackedTiles) {
+                            possibleMoves.add(move + position);
+                        }
+                    } else {
+                        possibleMoves.add(move + position);
+                    }
                 }
             }
         }

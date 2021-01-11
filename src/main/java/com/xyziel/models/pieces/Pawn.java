@@ -1,12 +1,11 @@
 package com.xyziel.models.pieces;
 
-import com.xyziel.models.Board;
+import com.xyziel.controllers.Board;
 import com.xyziel.models.Tile;
 import javafx.scene.image.ImageView;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Pawn extends Piece {
 
@@ -43,22 +42,46 @@ public class Pawn extends Piece {
         if(moves[0] + position >= 0 && moves[0] + position <= 63 && tiles[moves[0] + position].getPiece() != null && tiles[moves[0] + position].getPiece().getPieceColor() != this.pieceColor) {
             if(pieceColor == Color.WHITE) {
                 if(position % 8 != 7) {
-                    possibleMoves.add(moves[0] + position);
+                    if(tiles[moves[0] + position].getPiece() instanceof King) {
+                        if(onlyAttackedTiles) {
+                            possibleMoves.add(moves[0] + position);
+                        }
+                    } else {
+                        possibleMoves.add(moves[0] + position);
+                    }
                 }
             } else {
                 if(position % 8 != 0) {
-                    possibleMoves.add(moves[0] + position);
+                    if(tiles[moves[0] + position].getPiece() instanceof King) {
+                        if(onlyAttackedTiles) {
+                            possibleMoves.add(moves[0] + position);
+                        }
+                    } else {
+                        possibleMoves.add(moves[0] + position);
+                    }
                 }
             }
         }
         if(moves[2] + position >= 0 && moves[2] + position <= 63 && tiles[moves[2] + position].getPiece() != null && tiles[moves[2] + position].getPiece().getPieceColor() != this.pieceColor) {
             if(pieceColor == Color.WHITE) {
                 if(position % 8 != 0) {
-                    possibleMoves.add(moves[2] + position);
+                    if(tiles[moves[2] + position].getPiece() instanceof King) {
+                        if(onlyAttackedTiles) {
+                            possibleMoves.add(moves[2] + position);
+                        }
+                    } else {
+                        possibleMoves.add(moves[2] + position);
+                    }
                 }
             } else {
                 if(position % 8 != 7) {
-                    possibleMoves.add(moves[2] + position);
+                    if(tiles[moves[2] + position].getPiece() instanceof King) {
+                        if(onlyAttackedTiles) {
+                            possibleMoves.add(moves[2] + position);
+                        }
+                    } else {
+                        possibleMoves.add(moves[2] + position);
+                    }
                 }
             }
         }
@@ -70,7 +93,12 @@ public class Pawn extends Piece {
         }
         //En passant
         if(board.getEnpassant() + 1 == position || board.getEnpassant() - 1 == position) {
-            possibleMoves.add(board.getEnpassant() - 8);
+            if(pieceColor == Color.WHITE) {
+                possibleMoves.add(board.getEnpassant() - 8);
+            } else {
+                possibleMoves.add(board.getEnpassant() + 8);
+            }
+
         }
         return possibleMoves;
     }
